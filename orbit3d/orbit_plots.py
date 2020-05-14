@@ -80,7 +80,7 @@ class Orbit:
         self.dras, self.ddecs = self.dRAs_G*self.plx*1000, self.dDecs_G*self.plx*1000
         self.RV = model.return_RVs()
         self.relsep = model.return_relsep()*self.plx
-        self.PA = (model.return_PAs()*180/np.pi) % 360
+        self.PA = (model.return_PAs()*180/np.pi - 180) % 360
 
         self.mu_RA_CM = 1e3*OP.extras[idx, 1]
         self.mu_Dec_CM = 1e3*OP.extras[idx, 2]
@@ -866,6 +866,7 @@ class OrbitPlots:
             ax.set_xlabel('Epoch (year)', labelpad=6, fontsize=13)
         
         plt.tight_layout()
+        plt.show()
         print("Plotting Position Angle, your plot is generated at " + self.outputdir)
         plt.savefig(os.path.join(self.outputdir,'PA_OC_' + self.title)+'.pdf',bbox_inches='tight', dpi=200)
 ################################################################################################
