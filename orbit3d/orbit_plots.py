@@ -334,8 +334,12 @@ class OrbitPlots:
         if self.have_reldat:
             ra_obs = self.relsep_obs * np.sin(self.PA_obs*np.pi /180.)
             dec_obs = self.relsep_obs * np.cos(self.PA_obs*np.pi /180.)
-            ax.scatter(ra_obs, dec_obs, s=45, facecolors=self.marker_color, edgecolors='none', zorder=99)
-            ax.scatter(ra_obs, dec_obs, s=45, facecolors='none', edgecolors='k', zorder=100)
+            seperr, err_pa_direction = self.relsep_obs_err, self.PA_obs_err * np.pi/180 * self.relsep_obs
+            # rotate the SEP, PA error into RA and DEC. Assume correlation is 0 in SEP, PA basis.
+            ra_error = np.sqrt(seperr**2 * np.cos(self.PA_obs*np.pi/180)**2 + err_pa_direction**2 * np.sin(self.PA_obs*np.pi/180)**2)
+            dec_error = np.sqrt(seperr**2 * np.sin(self.PA_obs*np.pi/180)**2 + err_pa_direction**2 * np.cos(self.PA_obs*np.pi/180)**2)
+            # plot ra, dec with error bars.
+            ax.errorbar(ra_obs, dec_obs, xerr=ra_error, yerr=dec_error, color='black', alpha=0.8, ls='none', zorder=101)
 
         # plot the predicted positions (set in config.ini)
         epoch_int = []
