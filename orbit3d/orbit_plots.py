@@ -1,6 +1,5 @@
 import os
 import numpy as np
-import julian
 from datetime import datetime as dt
 import time
 from random import randrange
@@ -12,6 +11,7 @@ from orbit3d import orbit
 from astropy.io import fits
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
+from astropy.time import Time
 import matplotlib.patches as mpatches
 import matplotlib.colors as mcolors
 import matplotlib.cm as cm
@@ -150,36 +150,13 @@ class OrbitPlots:
         """
             Function to convert Julian Date to Calendar Date
         """
-        mjd = JD - 2400000.5
-        date = julian.from_jd(mjd, fmt='mjd')
-        def sinceEpoch(date): # returns seconds since epoch
-            return time.mktime(date.timetuple())
-        s = sinceEpoch
-        year = date.year
-        startOfThisYear = dt(year=year, month=1, day=1)
-        startOfNextYear = dt(year=year+1, month=1, day=1)
-        yearElapsed = s(date) - s(startOfThisYear)
-        yearDuration = s(startOfNextYear) - s(startOfThisYear)
-        fraction = yearElapsed/yearDuration
-        return date.year + fraction
+        return Time(JD, format='jd').decimalyear
 
     def calendar_to_JD(self, year, M=1, D=1):
         """
             Function to convert Calendar Date to Julian Date
         """
-        if M <= 2:
-            y = year - 1
-            m = M + 12
-        else:
-            y = year
-            m = M
-        if year <= 1583: # more precisely should be less than or equal to 10/4/1582
-            B = -2
-        else:
-            B = int(y/400.) - int(y/100.)
-        UT = 0
-        JD = int(365.25*y) + int(30.6001*(m+1)) + B + 1720996.5  + D + UT/24.
-        return JD
+        return Time(year, format='decimalyear').jd
 
     def define_epochs(self):
         """
@@ -285,10 +262,10 @@ class OrbitPlots:
             assert self.multi_instr
             offset_dic = {}
             for i in np.arange(8, 8 + self.nInst, 1):
-                offset = self.extras[idx, i]
-                offset_dic[i-8] = offset
+                offset = 0
+                offset_dic[i-8] = 0
         except:
-            offset = offset_dic = [self.extras[idx, 8]]
+            offset = offset_dic = [0]
         return offset_dic
 
 
@@ -777,6 +754,7 @@ class OrbitPlots:
             ax.set_xlabel('Epoch (year)', labelpad=6, fontsize=13)
                 
         plt.tight_layout()
+        plt.show()
         print("Plotting Separation, your plot is generated at " + self.outputdir)
         plt.savefig(os.path.join(self.outputdir, 'relsep_OC_' + self.title)+'.pdf',bbox_inches='tight', dpi=200)
 ################################################################################################
