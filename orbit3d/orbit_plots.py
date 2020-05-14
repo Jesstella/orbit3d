@@ -320,7 +320,7 @@ class OrbitPlots:
             orb = Orbit(self, step=self.rand_idx[i])
             dra, ddec = self.closed_orbit(orb.par, orb.plx)
 
-            ax.plot(dra, ddec, color=self.colormap(self.normalize(orb.colorpar)), alpha=0.4, linewidth=0.8)
+            ax.plot(dra, ddec, color=self.colormap(self.normalize(orb.colorpar)), alpha=0.1, linewidth=0.8)
 
         # plot the most likely orbit
         
@@ -671,8 +671,8 @@ class OrbitPlots:
             for i in range(self.num_orbits):
                 orb = Orbit(self, step=self.rand_idx[i]) 
                 
-                ax1.plot(self.epoch_calendar, orb.relsep, color=self.colormap(self.normalize(orb.colorpar)), alpha=0.3)
-                ax2.plot(self.epoch_calendar, orb.relsep - orb_ml.relsep, color=self.colormap(self.normalize(orb.colorpar)), alpha=0.3)
+                ax1.plot(self.epoch_calendar, orb.relsep, color=self.colormap(self.normalize(orb.colorpar)), alpha=0.1)
+                ax2.plot(self.epoch_calendar, orb.relsep - orb_ml.relsep, color=self.colormap(self.normalize(orb.colorpar)), alpha=0.1)
                 
             ax1.plot(self.epoch_calendar, orb_ml.relsep, color='black')
             ax2.plot(self.epoch_calendar, np.zeros(len(self.epoch)), 'k--', dashes=(5, 5))
@@ -783,8 +783,8 @@ class OrbitPlots:
                 
                 orb = Orbit(self, step=self.rand_idx[i])
 
-                ax1.plot(self.epoch_calendar, orb.PA, color=self.colormap(self.normalize(orb.colorpar)), alpha=0.3)
-                ax2.plot(self.epoch_calendar, orb.PA - orb_ml.PA, color=self.colormap(self.normalize(orb.colorpar)), alpha=0.3)
+                ax1.plot(self.epoch_calendar, orb.PA, color=self.colormap(self.normalize(orb.colorpar)), alpha=0.1)
+                ax2.plot(self.epoch_calendar, orb.PA - orb_ml.PA, color=self.colormap(self.normalize(orb.colorpar)), alpha=0.1)
 
             # plot the highest likelihood orbit
             ax1.plot(self.epoch_calendar, orb_ml.PA, color='black')
