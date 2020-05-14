@@ -154,6 +154,7 @@ def run():
         OPs.proper_motions()
     if plot_corner:
         OPs.plot_corner()
+    plt.show()
     
 if __name__ == "__main__":
     run()

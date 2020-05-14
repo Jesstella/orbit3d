@@ -449,6 +449,7 @@ class OrbitPlots:
         # set labels and title
         ax.set_xlabel(r'$\mathrm{\Delta \alpha}$ (arcsec)', fontsize=14)
         ax.set_ylabel(r'$\mathrm{\Delta \delta}$ [arcsec]', fontsize=14)
+        ax.set_aspect('equal')
 
         print("Plotting Astrometry orbits, your plot is generated at " + self.outputdir)
         plt.tight_layout()
@@ -754,7 +755,6 @@ class OrbitPlots:
             ax.set_xlabel('Epoch (year)', labelpad=6, fontsize=13)
                 
         plt.tight_layout()
-        plt.show()
         print("Plotting Separation, your plot is generated at " + self.outputdir)
         plt.savefig(os.path.join(self.outputdir, 'relsep_OC_' + self.title)+'.pdf',bbox_inches='tight', dpi=200)
 ################################################################################################
@@ -866,7 +866,6 @@ class OrbitPlots:
             ax.set_xlabel('Epoch (year)', labelpad=6, fontsize=13)
         
         plt.tight_layout()
-        plt.show()
         print("Plotting Position Angle, your plot is generated at " + self.outputdir)
         plt.savefig(os.path.join(self.outputdir,'PA_OC_' + self.title)+'.pdf',bbox_inches='tight', dpi=200)
 ################################################################################################
